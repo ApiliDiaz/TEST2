@@ -1,0 +1,53 @@
+<%= form_with(model: position, local: true) do |form| %>
+  <% if position.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(position.errors.count, "error") %> prohibited this position from being saved:</h2>
+
+      <ul>
+      <% position.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :nombre %>
+    <%= form.text_field :nombre %>
+  </div>
+
+  <div class="field">
+    <%= form.label :vacantes %>
+    <%= form.number_field :vacantes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :fip %>
+    <%= form.text_field :fip %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rol %>
+    <%= form.text_field :rol %>
+  </div>
+
+  <div class="field">
+    <%= form.label :contrato %>
+    <%= form.text_field :contrato %>
+  </div>
+
+  <div class="field">
+    <%= form.label :turno %>
+    <%= form.text_field :turno %>
+  </div>
+
+  <div class="field" style="display: none">
+    <%= form.label :superintendence_id %>
+    <%= form.number_field :superintendence_id, :value => @superintendence.id %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,234 @@
+<%- model_class = Record -%>
+
+<%# <div class="wrap">
+  <img src="pineal.png" class="rounded float-left" width="100" height="50" alt="pineal">
+  <img src="somos_collahuasi.png" class="rounded float-right" width="100" height="50" alt="somos_collahuasi">
+</div> %>
+
+<% if current_user.email == "admin@pineal.cl" %>
+  <a class = "btn btn-primary aButton" href = "/vicepresidencies"> Nuevo Concurso </a> 
+<% end %>
+
+<h1>Concursos</h1>
+
+<table class = "table">
+  <thead>
+    <tr>
+      <th>VP</th>
+      <th>Gerencia</th>
+      <th>SI</th>
+      <th>Cargo</th>
+      <th>Rol</th>
+      <th>Vacantes</th>
+      
+      <th>Aptos</th>
+      <th>No Aptos</th>
+      <th>En Coordinación</th>
+      <th>Nº Postulantes</th>
+
+
+      <th>Dias</th>
+      <th>F creacion</th>
+      <th>F apertura</th>
+      <th>F aprobacion</th>
+      <th>F ingreso</th>
+      <th>Comentario</th>
+      <th>Status</th>
+      <th colspan="3">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contests.each do |contest| %>
+      <tr>
+        <td><%= @position.superintendence.management.vicepresidency.sigla %> </td>
+        <td><%= @position.superintendence.management.sigla %></td>
+        <td><%= @position.superintendence.nombre %></td>
+        <td><%= contest.position.nombre %></td>
+        <td><%= @position.rol %></td>
+        <td><%= @position.vacantes %></td>
+        
+        <%# Query sobre postulantes a este cargo %>
+        <td><%= @position.vacantes %></td>
+        <td><%= @position.vacantes %></td>
+        <td><%= @position.vacantes %></td>
+        <td><%= contest.postulants.count() %></td>
+
+        <td><%= contest.dias %></td>
+        <td><%= contest.f_creacion %></td>
+        <td><%= contest.f_apertura %></td>
+        <td><%= contest.f_aprobacion %></td>
+        <td><%= contest.f_ingreso %></td>
+        <td><%= contest.comentario %></td>
+        <td><%= contest.status %></td>
+        <td><%= link_to '<i class="fa fa-eye"></i>'.html_safe,
+                          contest_path(contest), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-pen"></i>'.html_safe,
+                          edit_contest_path(contest, :position => @position.id), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-trash-alt"></i>'.html_safe,
+                          contest_path(contest),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-xs btn-danger' %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+
+
+<% if false %>
+<div class="container paddingBottom">
+  <% if current_user.email == "admin@pineal.cl" %>
+    <p>
+      <%= link_to t('.new', :default => "Nuevo Concurso"),
+                  new_record_path,
+                  :class => 'btn btn-primary aButton' %>
+    </p>
+  <% end %>
+
+    <div class="row">
+      <h5 class="text-center">Cantidad - Cargo</h5>
+    </div>
+
+    <div class="row">
+      <table class="table table-bordered cellspacing="0" cellpadding="0">
+        <thead>
+          <tr>
+            <td class="text-center"></td>
+            <% @filter_roles.each do |fr| %>
+              <td class="text-center"><%= fr %></td>
+            <% end %>
+            <td class="text-center">Total Resultado</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @filter_vps.each do |fv| %>
+            <tr>
+              <td class="text-center"><%= fv %></td>
+              <% @filter_roles.each do |fr| %>
+                <td class="text-center"><%= @table_records.where(vp: "#{fv}", rol: "#{fr}").count %></td>
+              <% end %>
+              <td class="text-center"><%= @table_records.where(vp: "#{fv}").count %></td>
+            </tr>
+          <% end %>
+          <tr>
+            <td class="text-center">Total Resultado</td>
+            <% @filter_roles.each do |fr| %>
+              <td class="text-center"><%= @table_records.where(rol: "#{fr}").count %></td>
+            <% end %>
+            <td class="text-center"><%= @table_records.all.count %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row text-center">
+      <%= form_tag(records_path, method: :get) do %>
+        <%= select_tag "roles_filter", options_from_collection_for_select(@roles, "rol", "rol"), multiple: true %>
+        <%= select_tag "vps_filter", options_from_collection_for_select(@vps,  "vp", "vp"), multiple: true %>
+        <p class="small">(Para selección múltiple mantenga presionada la tecla Ctrl)</p>
+        <%= submit_tag 'Filtrar', name: nil %>
+      <% end %>
+    </div>
+
+  <%= bar_chart records_data_path(filter: @filter), library: {  title: 'Concursos CMDIC',
+                                                                hAxis: {
+                                                                  title: 'N° Concursos',
+                                                                  minValue: 0,
+                                                                  format:'0'
+                                                                },
+                                                                vAxis: {
+                                                                  title: 'Área'
+                                                                }}
+  %>
+
+
+<div class = "testTable">
+
+  <h2>Concursos</h2>
+  <table role="table" class = "table-bordered">
+  <thead role="rowgroup">
+    <tr role="row">
+      <th role="columnheader">Vice Presidente</th>
+      <th role="columnheader">Gerencia</th>
+      <th role="columnheader">SI</th>
+      <th role="columnheader">Cargo</th>
+      <th role="columnheader">Rol</th>
+      <th role="columnheader">N° Vacantes</th>
+      <th role="columnheader">Apto</th>
+      <th role="columnheader">No Apto</th>
+      <th role="columnheader">En Coordinación</th>
+      <th role="columnheader">N° Postulantes</th>
+      <th role="columnheader">Días Concurso</th>
+      <th role="columnheader">Fecha Apertura</th>
+      <th role="columnheader">Fecha Aprobación CEO</th>
+      <th role="columnheader">Fecha Ingreso</th>
+      <th role="columnheader">Status</th>
+      <th role="columnheader">Comentario</th>
+      <th role="columnheader">Fecha Creación</th>
+      <th role="columnheader">Acciones</th>
+    </tr>
+  </thead>
+  <tbody role="rowgroup">
+
+          <% @records.each do |record| %>
+        <tr role = "rowgroup">
+          <td role="cell" class="text-center"><%= record.vp %></td>
+          <td role="cell" class="text-center"><%= record.gerencia %></td>
+          <td role="cell" class="text-center"><%= record.si %></td>
+          <td role="cell" class="text-center"><%= record.cargo %></td>
+          <td role="cell" class="text-center"><%= record.rol %></td>
+          <td role="cell" class="text-center"><%= record.nvacantes %></td>
+          <td role="cell" class="text-center"><%= record.apto %></td>
+          <td role="cell" class="text-center"><%= record.noapto %></td>
+          <td role="cell" class="text-center"><%= record.encoordinacion %></td>
+          <td role="cell" class="text-center"><%= record.npostulantes %></td>
+          <td role="cell" class="text-center"><%= record.diasconcurso %></td>
+          <td role="cell" class="text-center"><%= record.fechaapertura %></td>
+          <td role="cell" class="text-center"><%= record.fechaaprobacionceo %></td>
+          <td role="cell" class="text-center"><%= record.fechaingreso %></td>
+          <td role="cell" class="text-center"><%= record.status %></td>
+          <td role="cell" class="text-center"><%= record.comentario %></td>
+          <td role="cell" class="text-center"><%= record.created_at.strftime("%d-%m") %></td>
+          <% if current_user.email == "admin@pineal.cl" %>
+            <td class="text-center actions">
+
+            
+              <%= link_to '<i class="fa  style="color:black""></i>'.html_safe,
+                          record_path(record), :class => 'btn btn-default btn-xs' %>
+
+              <%= link_to '<i class="fa fa-pen"></i>'.html_safe,
+                          edit_record_path(record), :class => 'btn btn-default btn-xs' %>
+
+              <%= link_to '<i class="fa fa-trash-alt"></i>'.html_safe,
+                          record_path(record),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-xs btn-danger' %>
+
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+</div>
+
+  <h5>Seleccione para filtrar</h5>
+  <%= form_tag(records_path, method: :get) do %>
+    <% @statuses.each do |status| %>
+      <% if status.present? %>
+        <% checked = @filter.include? status if @filter.present? %>
+        <%= check_box_tag 'filter[]', status, checked %> <%= status %>
+      <% end %>
+    <% end %>
+    <%= submit_tag 'Filtrar', name: nil %>
+  <% end %>
+  <%= link_to '<button type="button" class="btn btn-primary" style="float: right;">Exportar planilla</button>'.html_safe, download_path(format: "xlsx", filter: @filter) %>
+
+</div>
+
+<% end %>

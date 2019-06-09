@@ -1,0 +1,130 @@
+<%= form_with(model: postulant, local: true) do |form| %>
+  <% if postulant.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(postulant.errors.count, "error") %> prohibited this postulant from being saved:</h2>
+
+      <ul>
+      <% postulant.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <%# Eliminar del modelo la columna apto %>
+  <div class="field" style="display: none">
+    <%= form.label :apto %>
+    <%= form.text_field :apto, :value => 'no' %>
+  </div>
+
+  <div class = 'row'>
+    <div class = 'col-xs-4'>
+      <div class="field">
+        <%= form.label :panel %>
+        <%= form.collection_select :panel, Option.order(:apto),:apto,:apto, include_blank: false %>
+      </div>
+    </div>
+
+    <div class = 'col-xs-4'>
+      <div class="field">
+        <%= form.label :f_panel %>
+        <%= form.date_select :f_panel, :include_blank => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class = 'row'>
+    <div class = 'col-xs-4'>
+      <div class="field">
+        <%= form.label :psicolaboral %>
+        <%= form.collection_select :psicolaboral, Option.order(:apto),:apto,:apto, include_blank: false %>
+      </div>
+    </div>
+    <div class = 'col-xs-4'>
+      <div class="field">
+        <%= form.label :f_psicolaboral %>
+        <%= form.date_select :f_psicolaboral, :include_blank => true %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class = 'row'>
+    <div class = 'col-xs-4'>
+      <div class="field">
+        <%= form.label :preocupacional %>
+        <%= form.collection_select :preocupacional, Option.order(:apto),:apto,:apto, include_blank: false %>
+      </div>
+    </div>
+
+    <div class = 'col-xs-4'>
+      <div class="field">
+        <%= form.label :f_preocupacional %>
+        <%= form.date_select :f_preocupacional, :include_blank => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class = "row">
+  <div class = "col-xs-4">
+  <div class="field">
+    <%= form.label :ajusta_renta %>
+    <%= form.collection_select :ajusta_renta, Bool.order(:bool),:bool,:bool, include_blank: false %>
+  </div>
+  </div>
+  <div class = "col-xs-4">
+  <div class="field">
+    <%= form.label :r_esperada %>
+    <%= form.number_field :r_esperada %>
+  </div>
+  </div>
+  </div>
+
+  <div class="field" style = "display: inline-grid">
+    <%= form.label :observaciones %>
+    <%= form.text_area :observaciones, cols: "70", rows: "10" %>
+  </div>
+
+  <br>
+
+  <div class="field" style = "display: inline-grid">
+    <%= form.label :pasos_seguir %>
+    <%= form.text_area :pasos_seguir, cols: "70", rows: "10" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nombre %>
+    <%= form.text_field :nombre %>
+  </div>
+
+  <div class="field">
+    <%= form.label :residencia %>
+    <%= form.text_field :residencia %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ex_empleador %>
+    <%= form.text_field :ex_empleador %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ex_cargo %>
+    <%= form.text_field :ex_cargo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :origin_id %>
+    <%= form.collection_select :origin_id, Origin.order(:tipo),:id,:tipo, include_blank: false %>
+  </div>
+
+
+  <div class="field" style="display: none">
+    <%= form.label :contest_id %>
+    <%= form.number_field :contest_id, :value => @contest.id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

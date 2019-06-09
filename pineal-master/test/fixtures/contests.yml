@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  dias: 1
+  f_creacion: 2019-03-01
+  f_apertura: 2019-03-01
+  f_aprobacion: 2019-03-01
+  f_ingreso: 2019-03-01
+  comentario: MyString
+  status: MyString
+  position_id: 1
+
+two:
+  dias: 1
+  f_creacion: 2019-03-01
+  f_apertura: 2019-03-01
+  f_aprobacion: 2019-03-01
+  f_ingreso: 2019-03-01
+  comentario: MyString
+  status: MyString
+  position_id: 1

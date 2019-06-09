@@ -1,0 +1,36 @@
+<h1>
+  <%# <strong>Vicepresidencia:</strong> %>
+  <%= @vicepresidency.sigla %>
+</h1>
+
+<h4>Seleccione una Gerencia</h4>
+<table class = "table">
+  <thead>
+    <tr>
+      <th>Gerencias</th>
+      <th>Vicepresidencias</th>
+      <th colspan="3">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @managements.each do |management| %>
+      <tr>
+        <td><%= management.sigla %></td>
+        <td><%= Vicepresidency.find(management.vicepresidency_id).sigla %></td>
+        <td><%= link_to '<i class="fa fa-eye"></i>'.html_safe,
+                          management_path(management), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-pen"></i>'.html_safe,
+                          edit_management_path(management, :vicepresidency => @vicepresidency.id), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-trash-alt"></i>'.html_safe,
+                          management_path(management),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-xs btn-danger' %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Nueva Gerencia', new_management_path( :vicepresidency =>@vicepresidency.id), class: "btn btn-primary aButton" %>
+

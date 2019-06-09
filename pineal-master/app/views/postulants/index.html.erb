@@ -1,0 +1,61 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Postulants</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Apto</th>
+      <th>Turno</th>
+      <th>Panel</th>
+      <th>F panel</th>
+      <th>Psicolaboral</th>
+      <th>F psicolaboral</th>
+      <th>Preocupacional</th>
+      <th>F preocupacional</th>
+      <th>Ajusta renta</th>
+      <th>R esperada</th>
+      <th>Observaciones</th>
+      <th>Pasos seguir</th>
+      <th>Nombre</th>
+      <th>Residencia</th>
+      <th>Ex empleador</th>
+      <th>Ex cargo</th>
+      <th>Origin</th>
+      <th>Position</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @postulants.each do |postulant| %>
+      <tr>
+        <td><%= postulant.apto %></td>
+        <td><%= postulant.turno %></td>
+        <td><%= postulant.panel %></td>
+        <td><%= postulant.f_panel %></td>
+        <td><%= postulant.psicolaboral %></td>
+        <td><%= postulant.f_psicolaboral %></td>
+        <td><%= postulant.preocupacional %></td>
+        <td><%= postulant.f_preocupacional %></td>
+        <td><%= postulant.ajusta_renta %></td>
+        <td><%= postulant.r_esperada %></td>
+        <td><%= postulant.observaciones %></td>
+        <td><%= postulant.pasos_seguir %></td>
+        <td><%= postulant.nombre %></td>
+        <td><%= postulant.residencia %></td>
+        <td><%= postulant.ex_empleador %></td>
+        <td><%= postulant.ex_cargo %></td>
+        <td><%= postulant.origin_id %></td>
+        <td><%= postulant.position_id %></td>
+        <td><%= link_to 'Show', postulant %></td>
+        <td><%= link_to 'Edit', edit_postulant_path(postulant) %></td>
+        <td><%= link_to 'Destroy', postulant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Postulant', new_postulant_path %>

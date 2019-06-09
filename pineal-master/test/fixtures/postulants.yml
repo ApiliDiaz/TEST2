@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  apto: MyString
+  turno: MyString
+  panel: MyString
+  f_panel: 2019-03-02
+  psicolaboral: MyString
+  f_psicolaboral: 2019-03-02
+  preocupacional: MyString
+  f_preocupacional: 2019-03-02
+  ajusta_renta: MyString
+  r_esperada: 1
+  observaciones: MyString
+  pasos_seguir: MyString
+  nombre: MyString
+  residencia: MyString
+  ex_empleador: MyString
+  ex_cargo: MyString
+  origin_id: 1
+  position_id: 1
+
+two:
+  apto: MyString
+  turno: MyString
+  panel: MyString
+  f_panel: 2019-03-02
+  psicolaboral: MyString
+  f_psicolaboral: 2019-03-02
+  preocupacional: MyString
+  f_preocupacional: 2019-03-02
+  ajusta_renta: MyString
+  r_esperada: 1
+  observaciones: MyString
+  pasos_seguir: MyString
+  nombre: MyString
+  residencia: MyString
+  ex_empleador: MyString
+  ex_cargo: MyString
+  origin_id: 1
+  position_id: 1

@@ -1,0 +1,291 @@
+<h1>Concursos
+<% if params[:finished].present? %>
+    Completados
+<% else%>
+    Activos
+<% end %>
+
+</h1>
+
+<% if current_user.email == "admin@pineal.cl" %>
+    <a class = "btn btn-primary aButton mb-20 pull-right" href = "/vicepresidencies"> Nuevo Concurso </a>
+<% end %>
+
+<% if !params[:finished].present? %>
+    <a class = "btn btn-primary aButton mb-20 separateButtons pull-right" href = "<%= root_path(:finished => 1) %>"> Ver Historicos </a>
+<% end %>
+
+<p id="notice" style = "color:red"><%= alert %></p>
+
+<table id="example" class="display table" style="width:100%">
+        <thead>
+            <tr>
+              <th>VP</th>
+              <th>Gerencia</th>
+              <th>SI</th>
+              <th>Cargo</th>
+              <th>Rol</th>
+              <th class = "short" >Vacantes</th>
+              <th class = "short" >Aptos</th>
+              <th class = "short" >No Aptos</th>
+              <th class = "short" >En Coordinación</th>
+              <th class = "short" >Nº Postulantes</th>
+              <th class = "short" >Catidad Dias</th>
+              <th>Fecha creacion</th>
+              <th>Fecha apertura</th>
+              <th>Fecha aprobacion CEO</th>
+              <th>Fecha ingreso</th>
+              <th>Comentario</th>
+              <th>Status</th>
+              <th class = "short">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% @contests.each do |contest| %>
+        <tr>
+          <td><%= contest.position.superintendence.management.vicepresidency.sigla %> </td>
+          <td><%= contest.position.superintendence.management.sigla %></td>
+          <td><%= contest.position.superintendence.nombre %></td>
+          <td><%= contest.position.nombre %></td>
+          <td><%= contest.position.rol %></td>
+          <td class = "short" ><%= contest.position.vacantes %></td>
+          
+          <%# Query sobre postulantes a este cargo %>
+          <%# Aptos %>
+          <td class = "short" ><%= contest.postulants.where(panel: 'Apto', psicolaboral: 'Apto', preocupacional: 'Apto' ).count() %></td> 
+          <%# No Aptos %>
+          <td class = "short" ><%= contest.postulants.where(" panel = 'No Apto' or psicolaboral = 'No Apto' or preocupacional = 'No Apto' ").count() %></td>
+          <%# En Coordinacion %>
+          <td class = "short" >
+          <%= contest.postulants.count() - 
+          contest.postulants.where(panel: 'Apto', psicolaboral: 'Apto', preocupacional: 'Apto' ).count() - 
+          contest.postulants.where(" panel = 'No Apto' or psicolaboral = 'No Apto' or preocupacional = 'No Apto' ").count() %>
+          <%# contest.postulants.where(" panel = 'En Proceso' or psicolaboral = 'En Proceso' or preocupacional = 'En Proceso' ").count()  %>
+
+          <%# N Postulantes %>
+          <td  class = "short" ><%= contest.postulants.count() %></td>
+
+          <td>
+          <% if ((Date.today - contest.f_creacion).to_i < 60) %>
+            <i class="fa fa-circle" style="color:green"></i>
+          <% end %>
+          <% if ((Date.today - contest.f_creacion).to_i >= 60) and  ((Date.today - contest.f_creacion).to_i < 70) %>
+            <i class="fa fa-circle" style="color:yellow"></i>
+          <% end %>
+          <% if ((Date.today - contest.f_creacion).to_i >= 70) %>
+            <i class="fa fa-circle" style="color:red"></i>
+          <% end %>          
+          <%= (Date.today - contest.f_creacion).to_i %>
+          </td>
+
+          <td><%= contest.f_creacion %></td>
+          <td><%= contest.f_apertura %></td>
+          <td><%= contest.f_aprobacion %></td>
+          <td><%= contest.f_ingreso %></td>
+          <td><%= contest.comentario %></td>
+          <td><%= contest.status %></td>
+
+          <td class = "short">
+          <%= link_to '<i class="fa fa-eye" style="color:black"></i>'.html_safe,
+                            contest_path(contest), :class => 'btn btn-default btn-xs' %>
+
+          <% if current_user.email == "admin@pineal.cl" %>
+
+            <%= link_to '<i class="fa fa-pen"></i>'.html_safe,
+                                edit_contest_path(contest, :position => contest.position.id), 
+                                :class => 'btn btn-default btn-xs' %>
+            <%= link_to '<i class="fa fa-trash-alt"></i>'.html_safe,
+                                contest_path(contest),
+                                :method => :delete,
+                                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                                :class => 'btn btn-xs btn-danger' %>
+            
+
+            <%# Se pueden completar %>
+            <% if params[:finished].present? %>
+                <%= link_to '<i class = "fa fa-check"></i>'.html_safe,
+                                contest_incomplete_path(:contest_id => contest.id),
+                                :method => 1,
+                                :class => 'btn btn-default btn-xs'%> 
+            <% else%>
+            <%= link_to '<i class = "fa fa-check"></i>'.html_safe,
+                                contest_complete_path(:contest_id => contest.id),
+                                :method => 1,
+                                :class => 'btn btn-default btn-xs'%> 
+            <% end %>
+          <% end %>
+          </td>
+        </tr>
+      <% end %>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>VP</th>
+                <th>Gerencia</th>
+                <th>SI</th>
+                <th>Cargo</th>
+                <th>Rol</th>
+                <th class = "short" >Vacantes</th>
+                <th class = "short" >Aptos</th>
+                <th class = "short" >No Aptos</th>
+                <th class = "short" >En Coordinación</th>
+                <th class = "short" >Nº Postulantes</th>
+                <th class = "short" >Dias</th>
+                <th>F creacion</th>
+                <th>F apertura</th>
+                <th>F aprobacion</th>
+                <th>F ingreso</th>
+                <th>Comentario</th>
+                <th>Status</th>
+                <th class = "short">Acciones</th>
+            </tr>
+        </tfoot>
+    </table>
+    
+
+
+
+<%# Chart CDN %>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<div id="chart" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+
+
+<script>  
+$(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    // Restarts every time a filter is applied
+    $('#example thead tr').clone(true).appendTo( '#example thead' );
+    $('#example thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+ 
+        $( 'input', this ).on( 'input change', function () {
+            if ( table.column(i).search() !== this.value ) {
+                table
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+            }
+            getTableData(table);
+        } );
+    } );
+ 
+    var table = $('#example').DataTable( {
+        orderCellsTop: true,
+        fixedHeader: true,
+        paging: false,
+        info: false,
+        responsive: true,
+        scrollX: true,
+        order: []
+    } );
+
+    getTableData(table);
+
+} );
+
+
+// gets table
+function getTableData(table) {
+  const dataArray = [],
+    VPArray = [],
+    RolArray = [],
+    Array = [];
+ 
+  // loop table rows
+  table.rows({ search: "applied" }).every(function() {
+    const data = this.data();
+    VPArray.push(data[0]);
+    RolArray.push(data[4]);
+  });
+ 
+  // store all data in dataArray
+  dataArray.push(VPArray, RolArray);
+
+  console.log(dataArray[0], 'Vicepresidencias Todas')
+  console.log(dataArray[1], 'Roles Todos')
+
+  drawChart(dataArray[0], dataArray[1]);
+
+}
+
+function drawChart(vps, roles){
+
+    // unique VPs
+    var uVP = [...new Set(vps)];
+    // Create arrays of appropiate size for filling
+    var SPS = Array(uVP.length).fill(0);
+    var OAS = Array(uVP.length).fill(0);
+    
+    for (const x of Array(roles.length).keys()) {
+        var pos = uVP.indexOf(vps[x]);
+        if (roles[x] == 'SPS'){
+            SPS[pos] ++
+        }
+        else if (roles[x] == 'OAS'){
+            OAS[pos] ++
+        }
+    }
+
+    Highcharts.chart('chart', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Vicepresidencias vs Tipos de Cargos en Concurso'
+    },
+    xAxis: {
+        categories: uVP,
+        title: {
+        text: null
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+        text: 'Cantidad (unitaria)',
+        align: 'high'
+        },
+        labels: {
+        overflow: 'justify',
+        step: 5
+        }
+    },
+    tooltip: {
+        valueSuffix: ''
+    },
+    plotOptions: {
+        bar: {
+        dataLabels: {
+            enabled: true
+        }
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -40,
+        y: 80,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+        shadow: true
+    },
+    credits: {
+        enabled: false
+    },
+    series: [{
+        name: 'SPS',
+        data: SPS
+    }, {
+        name: 'OAS',
+        data: OAS
+    }]
+    });
+}
+
+ </script>

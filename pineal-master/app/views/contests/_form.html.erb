@@ -1,0 +1,52 @@
+<%= form_with(model: contest, local: true) do |form| %>
+  <% if contest.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(contest.errors.count, "error") %> prohibited this contest from being saved:</h2>
+
+      <ul>
+      <% contest.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :f_creacion %>
+    <%= form.date_select :f_creacion, :include_blank => true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :f_apertura %>
+    <%= form.date_select :f_apertura, :include_blank => true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :f_aprobacion %>
+    <%= form.date_select :f_aprobacion, :include_blank => true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :f_ingreso %>
+    <%= form.date_select :f_ingreso, :include_blank => true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :comentario %>
+    <%= form.text_field :comentario %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+    <div class="field" style="display: none">
+    <%= form.label :position_id %>
+    <%= form.number_field :position_id, :value => @position.id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

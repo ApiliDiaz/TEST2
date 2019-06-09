@@ -1,0 +1,69 @@
+// Place all the styles related to the Contests controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.bubble{
+    background-color: rgb(235, 242, 240);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+#postulants_table_wrapper{
+    .long{
+        
+        min-width: 300px !important;
+        input{
+            max-width: 300px;
+        }
+    }
+    th{
+        overflow: hidden;
+        max-width: 100px;
+        padding-left: 0px !important;
+        input{
+            max-width: 100px;
+        }
+    }
+
+    td{
+        white-space:pre-line !important;
+        max-width: 100px;
+        input{
+            max-width: 100px;
+        }
+    }
+}
+
+
+#example_wrapper{
+    .long{
+        white-space:pre-line;
+        min-width: 300px !important;
+        input{
+            max-width: 300px;
+        }
+    }
+    th{
+        overflow: hidden;
+        max-width: 100px;
+        padding-left: 0px !important; 
+        input{
+            max-width: 100px;
+        }
+        .short{
+            max-width: 50px !important;
+        }
+    }
+
+    td{
+        max-width: 100px;
+        .short{
+            max-width: 50px !important;
+        }
+    }
+}
+
+.separateButtons{
+    margin-right: 10px;
+}

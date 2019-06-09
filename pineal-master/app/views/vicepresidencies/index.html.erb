@@ -1,0 +1,31 @@
+<h3>Elija Vicepresidencia</h3>
+
+<table class = "table">
+  <thead>
+    <tr>
+      <th>Sigla</th>
+      <th colspan="3">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @vicepresidencies.each do |vicepresidency| %>
+      <tr>
+        <td><%= vicepresidency.sigla %></td>
+        <td><%= link_to '<i class="fa fa-eye"></i>'.html_safe,
+                          vicepresidency_path(vicepresidency), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-pen"></i>'.html_safe,
+                          edit_vicepresidency_path(vicepresidency), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-trash-alt"></i>'.html_safe,
+                          vicepresidency_path(vicepresidency),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-xs btn-danger' %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to ' Nueva Vicepresidencia', new_vicepresidency_path, class: "btn btn-primary aButton" %>

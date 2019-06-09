@@ -1,0 +1,27 @@
+<h1>Managements</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sigla</th>
+      <th>Vicepresidency</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @managements.each do |management| %>
+      <tr>
+        <td><%= management.sigla %></td>
+        <td><%= Vicepresidency.find(management.vicepresidency_id).sigla %></td>
+        <td><%= link_to 'Show', management %></td>
+        <td><%= link_to 'Edit', edit_management_path(management) %></td>
+        <td><%= link_to 'Destroy', management, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Management', new_management_path %>

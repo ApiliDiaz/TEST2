@@ -1,0 +1,29 @@
+<%= form_with(model: management, local: true) do |form| %>
+  <% if management.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(management.errors.count, "error") %> prohibited this management from being saved:</h2>
+
+      <ul>
+      <% management.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :sigla %>
+    <%= form.text_field :sigla %>
+  </div>
+
+
+  <div class="field" style="display: none">
+    <%= form.label :vicepresidency_id %>
+    <%= form.number_field :vicepresidency_id, :value => @vicepresidency.id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+

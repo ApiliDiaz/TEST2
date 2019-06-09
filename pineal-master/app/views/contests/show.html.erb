@@ -1,0 +1,182 @@
+<h1>Postulantes para <%= @contest.position.nombre %></h1>
+
+
+  <div class = "bubble">
+    <div class = "row">
+      <div class = "col-lg-2">
+        <h5>Vicepresidencia: <%= @contest.position.superintendence.management.vicepresidency.sigla %> </h5>
+      </div>
+      <div class = "col-lg-2">
+        <h5>Gerencia: <%= @contest.position.superintendence.management.sigla %> </h5>
+      </div>
+      <div class = "col-lg-2">
+        <h5>Superintendencia: <%= @contest.position.superintendence.nombre %> </h5>
+      </div>
+      <div class = "col-lg-2">
+        <h5>Cargo: <%= @contest.position.nombre %> </h5>
+      </div>
+      <div class = "col-lg-2">
+        <h5>Rol: <%= @contest.position.rol %> </h5>
+      </div>
+      <div class = "col-lg-2">
+        <h5>Nº Vacantes: <%= @contest.position.vacantes %> </h5>
+      </div>
+    </div>
+
+    <div class = "row">
+      <div class = "col-lg-2">
+        <h5>Turno: <%= @contest.position.turno %> </h5>
+      </div>
+      <div class = "col-lg-2">
+        <h5>Contrato: <%= @contest.position.contrato %> </h5>
+      </div>
+      <div class = "col-lg-2">
+        <h5>FIP/Posición: <%= @contest.position.fip %> </h5>
+      </div>
+    </div>
+      
+  </div>
+
+<table id = "postulants_table" class = "display table" style = "width = 100%;">
+  <thead>
+    <tr>
+      <th>Nombre Completo</th>
+      <th>Panel</th>
+      <th>F panel</th>
+      <th>Psicolaboral</th>
+      <th>Fecha Psicolaboral</th>
+      <th>Preocupacional</th>
+      <th>F preocupacional</th>
+      <th>Ajusta renta</th>
+      <th>Pret. Renta Liq</th>
+      <th>Origen</th>
+      <th class = "long">Observaciones</th>
+      <th>Residencia</th>
+      <th>Empleador anterior</th>
+      <th>Ultimo Cargo</th>
+      <th>ESED</th>
+      <th class = "long">Pasos seguir</th>
+      <th>Fecha Apertura</th>
+      <th>Fecha Aprobacion CEO</th>
+      <th>Fecha Ingreso</th>
+      <th> Acciones </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @postulants.each do |postulant| %>
+      <tr>
+        <td><%= postulant.nombre %></td>
+        <td><%= postulant.panel %></td>
+        <td><%= postulant.f_panel %></td>
+        <td><%= postulant.psicolaboral %></td>
+        <td><%= postulant.f_psicolaboral %></td>
+        <td><%= postulant.preocupacional %></td>
+        <td><%= postulant.f_preocupacional %></td>
+        <td><%= postulant.ajusta_renta %></td>
+        <td><%= postulant.r_esperada %></td>
+        <td><%= postulant.origin.tipo %></td>
+        <td class = "long" ><%= postulant.observaciones %></td>
+        <td><%= postulant.residencia %></td>
+        <td><%= postulant.ex_empleador %></td>
+        <td><%= postulant.ex_cargo %></td>
+        <td><%= postulant.esed %></td>
+        <td class = "long"><%= postulant.pasos_seguir %></td>
+        <td><%= postulant.contest.f_apertura %></td>
+        <td><%= postulant.contest.f_aprobacion %></td>
+        <td><%= postulant.contest.f_ingreso %></td>
+        <td>
+            <% if current_user.email == "admin@pineal.cl" %>
+              <%= link_to '<i class="fa fa-pen"></i>'.html_safe,
+                          edit_postulant_path(postulant, postulant, :contest => @contest.id), :class => 'btn btn-default btn-xs' %>
+        
+              <%= link_to '<i class="fa fa-trash-alt"></i>'.html_safe,
+                          postulant_path(postulant),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-xs btn-danger' %> </td>
+              <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+
+    <tfoot>
+      <tr>
+        <th>Nombre Completo</th>
+        <th>Panel</th>
+        <th>F panel</th>
+        <th>Psicolaboral</th>
+        <th>Fecha Psicolaboral</th>
+        <th>Preocupacional</th>
+        <th>F preocupacional</th>
+        <th>Ajusta renta</th>
+        <th>Pret. Renta Liq</th>
+        <th>Origen</th>
+        <th class = "long">Observaciones</th>
+        <th>Residencia</th>
+        <th>Empleador anterior</th>
+        <th>Ultimo Cargo</th>
+        <th>ESED</th>
+        <th class = "long">Pasos seguir</th>
+        <th>Fecha Apertura</th>
+        <th>Fecha Aprobacion</th>
+        <th>Fecha Ingreso</th>
+        <th>Acciones</th>
+      </tr>
+  </tfoot>
+
+</table>
+
+<br>
+
+<% if current_user.email == "admin@pineal.cl" %>
+  <div class = "row">
+    <div class = "col-lg-1">
+      <%= link_to 'Nuevo Postulante', new_postulant_path(:contest => @contest.id), class: "btn btn-primary aButton" %>
+    </div>
+    <% if @contest.completed == 0%>
+    <div class = "col-lg-1">
+      <%= button_to "Marcar Concurso Completo", contest_complete_path(:contest_id => @contest.id), class: "btn btn-primary aButton" %>
+    </div>
+    <% end %>
+
+    <% if @contest.completed == 1%>
+    <div class = "col-lg-1">
+      <%= button_to "Marcar Incompleto", contest_incomplete_path(:contest_id => @contest.id), class: "btn btn-primary aButton" %>
+    </div>
+    <% end %>
+  </div>
+<% end %>
+
+<script>  
+$(document).ready(function() {
+
+    // Setup - add a text input to each footer cell
+    // Restarts every time a filter is applied
+    $('#postulants_table thead tr').clone(true).appendTo( '#postulants_table thead' );
+    $('#postulants_table thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+ 
+        $( 'input', this ).on( 'input change', function () {
+            if ( table.column(i).search() !== this.value ) {
+                table
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+ 
+      var table = $('#postulants_table').DataTable( {
+        orderCellsTop: true,
+        fixedHeader: true,
+        paging: false,
+        info: false,
+        responsive: true,
+        scrollX: true
+    } );
+
+
+} );
+</script>

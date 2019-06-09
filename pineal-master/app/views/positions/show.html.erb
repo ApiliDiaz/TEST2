@@ -1,0 +1,67 @@
+<h1>Concursos para <%= @position.nombre %></h1>
+
+<table class = "table">
+  <thead>
+    <tr>
+      <th>VP</th>
+      <th>Gerencia</th>
+      <th>SI</th>
+      <th>Cargo</th>
+      <th>Rol</th>
+      <th>Vacantes</th>
+      <th>Aptos</th>
+      <th>No Aptos</th>
+      <th>En Coordinación</th>
+      <th>Nº Postulantes</th>
+      <th>Dias</th>
+      <th>F creacion</th>
+      <th>F apertura</th>
+      <th>F aprobacion</th>
+      <th>F ingreso</th>
+      <th>Comentario</th>
+      <th>Status</th>
+      <th colspan="3">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contests.each do |contest| %>
+      <tr>
+        <td><%= @position.superintendence.management.vicepresidency.sigla %> </td>
+        <td><%= @position.superintendence.management.sigla %></td>
+        <td><%= @position.superintendence.nombre %></td>
+        <td><%= contest.position.nombre %></td>
+        <td><%= @position.rol %></td>
+        <td><%= @position.vacantes %></td>
+        
+        <%# Query sobre postulantes a este cargo %>
+        <td><%= @position.vacantes %></td>
+        <td><%= @position.vacantes %></td>
+        <td><%= @position.vacantes %></td>
+        <td><%= contest.postulants.count() %></td>
+
+        <td><%= contest.dias %></td>
+        <td><%= contest.f_creacion %></td>
+        <td><%= contest.f_apertura %></td>
+        <td><%= contest.f_aprobacion %></td>
+        <td><%= contest.f_ingreso %></td>
+        <td><%= contest.comentario %></td>
+        <td><%= contest.status %></td>
+        <td><%= link_to '<i class="fa fa-eye"></i>'.html_safe,
+                          contest_path(contest), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-pen"></i>'.html_safe,
+                          edit_contest_path(contest, :position => @position.id), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-trash-alt"></i>'.html_safe,
+                          contest_path(contest),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-xs btn-danger' %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Nuevo Concurso', new_contest_path( :position => @position.id), class: "btn btn-primary aButton" %>
+<a href = "/" class = "btn btn-primary aButton">Ver Todos</a>

@@ -1,0 +1,47 @@
+<h1>Elija Cargo para crear el concurso</h1>
+
+<table class = "table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Vacantes</th>
+      <th>Fip</th>
+      <th>Rol</th>
+      <th>Contrato</th>
+      <th>Turno</th>
+      <th>Vicepresidencia</th>
+      <th>Gerencia</th>
+      <th>Superintendence</th>
+      <th colspan="3">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @positions.each do |position| %>
+      <tr>
+        <td><%= position.nombre %></td>
+        <td><%= position.vacantes %></td>
+        <td><%= position.fip %></td>
+        <td><%= position.rol %></td>
+        <td><%= position.contrato %></td>
+        <td><%= position.turno %></td>
+        <td><%= position.superintendence.management.vicepresidency.sigla %></td>
+        <td><%= position.superintendence.management.sigla %></td>
+        <td><%= position.superintendence.nombre %></td>
+        <td><%= link_to '<i class="fa fa-eye"></i>'.html_safe,
+                          position_path(position), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-pen"></i>'.html_safe,
+                          edit_position_path(position, :superintendence => @superintendence.id), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-trash-alt"></i>'.html_safe,
+                          position_path(position),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-xs btn-danger' %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Nuevo Cargo', new_position_path( :superintendence => @superintendence.id), class: "btn btn-primary aButton" %>

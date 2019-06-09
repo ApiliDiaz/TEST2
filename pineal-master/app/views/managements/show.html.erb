@@ -1,0 +1,34 @@
+<h1>Elija Superintendencia</h1>
+
+<table class = "table">
+  <thead>
+    <tr>
+      <th>SuperIntendencia</th>
+      <th>Gerencia</th>
+      <th>Vicepresidencia</th>
+      <th colspan="3">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @superintendences.each do |superintendence| %>
+      <tr>
+        <td><%= superintendence.nombre %></td>
+        <td><%= Management.find(superintendence.management_id).sigla %></td>
+        <td><%= Vicepresidency.find(@management.vicepresidency_id).sigla %></td>
+        <td><%= link_to '<i class="fa fa-eye"></i>'.html_safe,
+                          superintendence_path(superintendence), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-pen"></i>'.html_safe,
+                          edit_superintendence_path(superintendence, superintendence, :management => @management.id), :class => 'btn btn-default btn-xs' %></td>
+        <td><%= link_to '<i class="fa fa-trash-alt"></i>'.html_safe,
+                          superintendence_path(superintendence),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-xs btn-danger' %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Nueva Superintendencia', new_superintendence_path( :management =>@management.id), class: "btn btn-primary aButton" %>
+

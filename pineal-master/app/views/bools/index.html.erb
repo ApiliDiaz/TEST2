@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Bools</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Bool</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bools.each do |bool| %>
+      <tr>
+        <td><%= bool.bool %></td>
+        <td><%= link_to 'Show', bool %></td>
+        <td><%= link_to 'Edit', edit_bool_path(bool) %></td>
+        <td><%= link_to 'Destroy', bool, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Bool', new_bool_path %>

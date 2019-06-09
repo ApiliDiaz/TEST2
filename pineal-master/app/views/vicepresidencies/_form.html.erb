@@ -1,0 +1,22 @@
+<%= form_with(model: vicepresidency, local: true) do |form| %>
+  <% if vicepresidency.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vicepresidency.errors.count, "error") %> prohibited this vicepresidency from being saved:</h2>
+
+      <ul>
+      <% vicepresidency.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :sigla %>
+    <%= form.text_field :sigla %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

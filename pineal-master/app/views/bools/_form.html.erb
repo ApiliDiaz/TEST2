@@ -1,0 +1,22 @@
+<%= form_with(model: bool, local: true) do |form| %>
+  <% if bool.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bool.errors.count, "error") %> prohibited this bool from being saved:</h2>
+
+      <ul>
+      <% bool.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :bool %>
+    <%= form.text_field :bool %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
